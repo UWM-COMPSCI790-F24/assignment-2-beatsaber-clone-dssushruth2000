@@ -1,4 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/_jOzbjmU)
 # Assignment 2: Making Beat Saber in Godot
 
 [Beat Saber](https://beatsaber.com/) is widely considered to be one of the best and most successful virtual reality games. There is a free demo available for the Meta Quest 2, which you can find in the official store app. Before beginning this assignment, I suggest that you download this demo or watch some videos on YouTube to familiarize yourself with the gameplay.
@@ -9,11 +8,21 @@ In this assignment, you will be implementing Beat Saber's core mechanics. You ca
 
 You should fill out this information before submitting your assignment.  Make sure to document the name and source of any third party assets such as 3D models, textures, or any other content used that was not solely written by you.  Include sufficient detail for the instructor or TA to easily find them, such as a download link.
 
-Name: 
+Name: Sushruth Danivasa Sridhar
 
-UWM Email:
+UWM Email: sushruth@uwm.edu
 
-Third Party Assets:
+Third Party Assets: N/A
+
+
+## Code Contents
+
+1. CubeSpawner.gd : Cube Spawning.
+2. left_controller.gd : left controller code and collision checking.
+3. LineRenderer.gd : laser swords, laser swords toggling and recentering the view.
+4. main.gd : OpenXR initialization
+5. MovingCube.gd: Cube moving, sound playing, decompsing cube.
+6. right_controller.gd : right controller code and collision checking 
 
 ## Getting Started
 
@@ -24,13 +33,14 @@ Clone the assignment using GitHub Classroom. Links to some resources will be ava
 Graded out of 20 points. 
 
 1. Construct laser swords for each controller by having a line renderer and a ColliderShape extend along the controller's negative z direction (see the laser pointer lecture). Pressing the primary button on each controller ("A" for the right controller and "X" for the left controller) should toggler the laser's visibility. Laser swords that are "off" should not interact with any other objects. The laser should be approximately 1 meter long. (3)
-1. Make a single cube that starts at the far end of the virtual environment (at least 10 meters away) and moves towards the user's start position.  Adjust the size and velocity so that it provides an appropriate challenge. (2)
+1. Make a single cube that starts at the far end of the virtual environment (at least 10 meters away) and moves towards the user's start position.  Adjust the size and velocity so that it provides an appropriate challenge. (1)
+1. Write a function that connects to OpenXR's "On Pose Recentered" signal ([https://docs.godotengine.org/en/stable/tutorials/xr/a_better_xr_start_script.html#on-pose-recentered](https://docs.godotengine.org/en/stable/tutorials/xr/a_better_xr_start_script.html#on-pose-recentered)). When the user presses and holds the "Oculus" button on the right controller, their virtual position and orientation should be altered such that they are centered to your flying cube and they are facing it. (2)
 1. When the user hits a cube with a laser sword, the cube should be destroyed. (2)
 1. Play a sound when the cube is destroyed. There are plenty of websites for free sound effects.  You should find one that you like and import it into your project. (2)
 1. Create a `CubeSpawner` node/script that creates new cubes at random time intervals between 0.5 and 2.0 seconds.  You can feel free adjust these time thresholds to reach an appropriate difficulty.  The cubes should also start at the far end of the environment (>10 meters away from the user), fly towards the user, and should be destroyed when hit by a laser sword. *Hint: you can create a scene instance for the cube and then `instantiate` to instantiate copies of it ([Nodes and scene instances](https://docs.godotengine.org/en/stable/tutorials/scripting/nodes_and_scene_instances.html)).* (3)
 1. The exact X and Y positions of the spawned cubes should be chosen randomly, but should always be within reach of the user's swords when standing at the start position. (2)
 1. If a cube goes past the user, it should also be destroyed, but no sound effect should be played.  We don't want to end up with infinite cubes that would slow down the Quest! (2)
-1. Create a "left" and "right" color for the laser swords (you might use blue for right and red for left, for example). Randomly assign the same color to each cube created by the `CubeSpawner`. Cubes should only be destroyed if they are cut by the laser sword with the same color. That is, blue cubes should only be destroyed by the blue sword, and red cubes should only be destroyed by the red sword. You are free to pick whatever two colors you want (provided the are sufficiently different). (4)
+1. Create a "left" and "right" color for the laser swords (you might use blue for right and red for left, for example). Randomly assign the same color to each cube created by the `CubeSpawner`. Cubes should only be destroyed if they are cut by the laser sword with the same color. That is, blue cubes should only be destroyed by the blue sword, and red cubes should only be destroyed by the red sword. You are free to pick whatever two colors you want (provided the are sufficiently different). (3)
 
 **Bonus Challenges (max 3 points, only available if all 20 points are already awarded):** 
 
@@ -53,4 +63,3 @@ Please test that your submission meets these requirements.  For example, after y
 ## Acknowledgements
 
 This assignment is a modified version of an assignment from a class taught by Professor Evan Suma Rosenberg at the University of Minnesota.
-

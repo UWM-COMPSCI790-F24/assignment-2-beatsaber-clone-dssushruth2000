@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://d06xts5dmhm81"]
+
+[ext_resource type="Script" path="res://Scripts/MovingCube.gd" id="1_efulv"]
+[ext_resource type="Material" uid="uid://bdcoy0gms2hvi" path="res://Materials/MovingCubeRed.tres" id="2_rnb1h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1l6bv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rylin"]
+material = SubResource("StandardMaterial3D_1l6bv")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ijhtu"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="MovingCube" type="Node3D"]
+script = ExtResource("1_efulv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_rylin")
+surface_material_override/0 = ExtResource("2_rnb1h")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_ijhtu")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_body_entered"]

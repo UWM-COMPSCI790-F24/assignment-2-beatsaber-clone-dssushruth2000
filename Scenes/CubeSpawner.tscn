@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpw62bt4pcu4f"]
+
+[ext_resource type="Script" path="res://Scripts/CubeSpawner.gd" id="1_6c37l"]
+
+[node name="CubeSpawner" type="Node3D"]
+script = ExtResource("1_6c37l")

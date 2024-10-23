@@ -1,0 +1,86 @@
+[gd_scene load_steps=16 format=3 uid="uid://drwcx6be1imjh"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_wbvsp"]
+[ext_resource type="Script" path="res://Scripts/right_controller.gd" id="2_b1u6m"]
+[ext_resource type="PackedScene" uid="uid://bc8lh0rihgxvi" path="res://Assets/Quest2Controllers/OculusQuest2TouchController_Right.gltf" id="2_lliyd"]
+[ext_resource type="Script" path="res://Scripts/LineRenderer.gd" id="3_3gb8q"]
+[ext_resource type="Material" uid="uid://cok122xah8t5o" path="res://Materials/red_laser.tres" id="3_4evv3"]
+[ext_resource type="PackedScene" uid="uid://cnwp7ndjr4s8y" path="res://Assets/Quest2Controllers/OculusQuest2TouchController_Left.gltf" id="3_4k43g"]
+[ext_resource type="Material" uid="uid://cgo4xow407bh4" path="res://Materials/blue_laser.tres" id="5_4r0cc"]
+[ext_resource type="Script" path="res://Scripts/left_controller.gd" id="6_jk6yg"]
+[ext_resource type="PackedScene" uid="uid://dpw62bt4pcu4f" path="res://Scenes/CubeSpawner.tscn" id="7_thkvx"]
+[ext_resource type="AudioStream" uid="uid://d2syl4yr3hwi4" path="res://Materials/destroy_sound_player.wav" id="10_lxm2t"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3167r"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_333f1"]
+sky_material = SubResource("ProceduralSkyMaterial_3167r")
+
+[sub_resource type="Environment" id="Environment_qfknl"]
+background_mode = 2
+sky = SubResource("Sky_333f1")
+tonemap_mode = 2
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_17qia"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_rsr0f"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_wbvsp")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qfknl")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+script = ExtResource("2_b1u6m")
+
+[node name="OculusQuest2TouchController_Right" parent="XROrigin3D/RightController" instance=ExtResource("2_lliyd")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="RightLaserSword" type="MeshInstance3D" parent="XROrigin3D/RightController"]
+material_override = ExtResource("3_4evv3")
+mesh = SubResource("ImmediateMesh_17qia")
+script = ExtResource("3_3gb8q")
+points = [Vector3(0, 0, 0), Vector3(0, 0, -1)]
+startThickness = 0.01
+endThickness = 0.001
+
+[node name="RightSwordRayCast3D" type="RayCast3D" parent="XROrigin3D/RightController/RightLaserSword"]
+target_position = Vector3(0, 0, -1)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+script = ExtResource("6_jk6yg")
+
+[node name="OculusQuest2TouchController_Left" parent="XROrigin3D/LeftController" instance=ExtResource("3_4k43g")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="LeftLaserSword" type="MeshInstance3D" parent="XROrigin3D/LeftController"]
+material_override = ExtResource("5_4r0cc")
+mesh = SubResource("ImmediateMesh_rsr0f")
+script = ExtResource("3_3gb8q")
+points = [Vector3(0, 0, 0), Vector3(0, 0, -1)]
+startThickness = 0.01
+endThickness = 0.001
+
+[node name="LeftSwordRayCast3D" type="RayCast3D" parent="XROrigin3D/LeftController/LeftLaserSword"]
+target_position = Vector3(0, 0, -1)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="DestroySoundPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_lxm2t")
+
+[node name="CubeSpawner" parent="." instance=ExtResource("7_thkvx")]
+
+[connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D/RightController/RightLaserSword" method="_on_right_controller_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController/LeftLaserSword" method="_on_left_controller_button_pressed"]
